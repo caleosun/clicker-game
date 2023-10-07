@@ -1,0 +1,79 @@
+<!doctype html><html>
+	<head>
+		<link rel="stylesheet" href="style.css"/>
+		<link rel="icon" href="" />
+		<title>Fun</title>
+	</head>
+		<body>
+			<p id="money">Money: 0</p>
+			<button onclick="game.addToScore(game.clickPower)">Click me to get money!!</button>
+			<button onclick="building.purchase(0)">Buy Cursor | <span id="cursorCost">Cursor Cost: 10</span> | <span id="cursors">Cursors: 0</span></button>
+			<button onclick="resetGame()">Wipe Save</button>
+		</body>
+</html>
+<script>
+	window.onload = loadGame;
+	var game = {
+		money: 0,
+		clickPower: 1,
+		addToScore: function(amount) {
+			this.money += amount;
+			this.money = Math.floor(this.money);
+			document.getElementById('money').innerHTML = 'Money: ' + this.money;
+			saveGame();
+		},
+	}
+	function saveGame(){
+		localStorage.setItem("game.money",game.money);
+		localStorage.setItem("building.cost.0",building.cost[0]);
+		localStorage.setItem("building.amount.0",building.amount[0]);
+	}
+	function loadGame(){
+		game.money = parseInt(localStorage.getItem("game.money")) || 0;
+		building.cost[0] = parseInt(localStorage.getItem("building.cost.0")) || 10;
+		building.amount[0] = parseInt(localStorage.getItem("building.amount.0")) || 0;
+		document.getElementById("money").innerHTML = 'Money: ' + game.money;
+		document.getElementById("cursors").innerHTML = 'Cursors: ' + building.amount[0];
+		document.getElementById("cursorCost").innerHTML = 'Cursor Cost: ' + builidng.cost[0];
+	}
+	var building = {
+		buildings: ["Cursor"],
+		cost: [10],
+		amount: [0],
+		purchase: function(index){
+			if (game.money >= this.cost[index]) {
+				game.money -= this.cost[index];
+				this.amount[index]++;
+				this.cost[index] = Math.ceil(this.cost[index] * 1.2);
+				cursorIncome += 0.1;
+				document.getElementById('money').innerHTML = "Money: " + Math.floor(game.money);
+				document.getElementById('cursors').innerHTML = 'Cursors: ' + Math.floor(building.amount[0]);
+				document.getElementById('cursorCost').innerHTML = 'Cursor Cost: ' + Math.floor(building.cost[0]);
+				
+				saveGame();
+			}
+		}
+		
+	}
+
+	function resetGame(){
+		if(confirm("Do you REALLY want to wipe you save?") == true) {
+			game.money = 0;
+			building.cost[0] = 0;
+			building.amount[0] = 0;
+			location.reload();
+			saveGame();
+			
+		}
+	}
+	
+var cursorIncome = 0.1;
+
+var cursorIncomeTimer = setInterval(function () {
+    game.money += cursorIncome;
+    document.getElementById("money").innerHTML = "Money: " + Math.floor(game.money);
+    saveGame();
+}, 1000);
+
+
+</script>
