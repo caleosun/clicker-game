@@ -10,6 +10,7 @@
 			<button onclick="building.purchase(0)">Buy Cursor | <span id="cursorCost">Cursor Cost: 10</span> | <span id="cursors">Cursors: 0</span></button>
 			<button onclick="resetGame()">Wipe Save</button>
 			<p>I had to add this (If you know me I'm sorry)</p>
+			<button onclick="secretPage()">Sorry, I'm truly sorry.</button>
 		</body>
 </html>
 <script>
@@ -75,6 +76,9 @@ var cursorIncomeTimer = setInterval(function () {
     document.getElementById("money").innerHTML = "Money: " + Math.floor(game.money);
     saveGame();
 }, 1000);
+	function secretPage(){
+		window.location = "secret.html";
+	}
 
 
 </script>
